@@ -1,0 +1,70 @@
+// Нативний акордеон без JS:
+// <div class="accordion">
+//   <details class="item" name="faq">            ← однаковий name = відкритий лише один
+//     <summary class="title">Питання</summary>
+//     <div class="body">Відповідь</div>
+//   </details>
+// </div>
+.accordion {
+  .item {
+    padding: var(--gap-sm);
+    border-radius: var(--radius);
+    background: var(--color-dark);
+    color: var(--color-light);
+
+    &:not(:last-child) {
+      margin-bottom: var(--gap-sm);
+    }
+
+    // Плавне відкриття (Chrome/Edge; в інших — просто без анімації)
+    &::details-content {
+      block-size: 0;
+      overflow: hidden;
+      transition: block-size var(--transition), content-visibility var(--transition) allow-discrete;
+    }
+
+    &[open]::details-content {
+      block-size: auto;
+    }
+  }
+
+  .title {
+    position: relative;
+    display: block;
+    padding-right: 40px;
+    font-weight: 600;
+    cursor: pointer;
+    list-style: none;
+
+    &::-webkit-details-marker {
+      display: none;
+    }
+
+    &::after {
+      @include pseudo-absolute;
+      top: 2px;
+      right: 4px;
+      width: 12px;
+      height: 12px;
+      border-right: 2px solid currentColor;
+      border-bottom: 2px solid currentColor;
+      transform: rotate(45deg);
+      transition: transform var(--transition), top var(--transition);
+    }
+  }
+
+  .item[open] .title::after {
+    top: 8px;
+    transform: rotate(-135deg);
+  }
+
+  .body {
+    padding-top: 10px;
+  }
+}
+
+@supports (interpolate-size: allow-keywords) {
+  :root {
+    interpolate-size: allow-keywords;
+  }
+}

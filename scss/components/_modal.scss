@@ -1,0 +1,166 @@
+// Нативний <dialog> — фокус, Esc і доступність "з коробки".
+// <button data-modal-open="thanks">Відкрити</button>
+// <dialog class="modal" id="thanks">
+//   <div class="inner">
+//     <button class="close" data-modal-close aria-label="Закрити"></button>
+//     <div class="body">…</div>
+//   </div>
+// </dialog>
+.modal {
+  width: calc(100% - var(--gap-sm) * 2);
+  max-width: 906px;
+  max-height: 90dvh;
+  padding: 0;
+  border: none;
+  border-radius: var(--radius);
+  background: transparent;
+  color: var(--color-text);
+  overflow: visible;
+
+  &::backdrop {
+    background-color: color-mix(in srgb, var(--color-dark) 50%, transparent);
+    backdrop-filter: blur(2px);
+  }
+
+  &[open] {
+    animation: modal-in 0.3s ease both;
+
+    &::backdrop {
+      animation: modal-fade 0.3s ease both;
+    }
+  }
+
+  .inner {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    max-height: 90dvh;
+    padding: var(--gap-md);
+    border-radius: inherit;
+    background-color: var(--color-bg);
+
+    @include mobile {
+      padding: var(--gap-sm);
+    }
+  }
+
+  .body {
+    overflow: auto;
+    overscroll-behavior: contain;
+    scrollbar-width: thin;
+  }
+
+  .close {
+    position: absolute;
+    top: var(--gap-sm);
+    right: var(--gap-sm);
+    z-index: 1;
+  }
+
+  &.sm {
+    max-width: 600px;
+  }
+
+  // На весь екран: <dialog class="modal full">
+  // Вміст можна вирівняти по сітці сайту: <div class="body"><div class="container">…</div></div>
+  &.full {
+    width: 100%;
+    max-width: none;
+    height: 100vh;
+    height: 100dvh;
+    max-height: none;
+    margin: 0;
+    border-radius: 0;
+
+    &[open] {
+      animation-name: modal-fade;
+    }
+
+    .inner {
+      height: 100%;
+      max-height: none;
+      padding: 80px 0 var(--gap-lg);
+
+      @include mobile {
+        padding: 70px 0 var(--gap-sm);
+      }
+    }
+
+    .body {
+      flex-grow: 1;
+      padding: 0 var(--gap-md);
+
+      @include mobile {
+        padding: 0 var(--gap-sm);
+      }
+    }
+
+    .body > .container {
+      padding-left: 0;
+      padding-right: 0;
+    }
+
+    .close {
+      top: var(--gap-md);
+      right: var(--gap-md);
+
+      @include mobile {
+        top: var(--gap-sm);
+        right: var(--gap-sm);
+      }
+    }
+  }
+}
+
+// Блокуємо скрол сторінки, поки модалка відкрита
+html:has(.modal[open]) {
+  overflow: hidden;
+}
+
+@keyframes modal-in {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+}
+
+@keyframes modal-fade {
+  from {
+    opacity: 0;
+  }
+}
+
+// ---------- Хрестик ----------
+.close {
+  --close-size: 33px;
+
+  position: relative;
+  flex-shrink: 0;
+  width: var(--close-size);
+  height: var(--close-size);
+  color: var(--color-dark);
+  cursor: pointer;
+
+  &::before,
+  &::after {
+    @include pseudo-absolute;
+    top: 50%;
+    left: 50%;
+    width: 3px;
+    height: 100%;
+    border-radius: 3px;
+    background-color: currentColor;
+  }
+
+  &::before {
+    transform: translate(-50%, -50%) rotate(45deg);
+  }
+
+  &::after {
+    transform: translate(-50%, -50%) rotate(-45deg);
+  }
+
+  @include hover {
+    opacity: 0.7;
+  }
+}

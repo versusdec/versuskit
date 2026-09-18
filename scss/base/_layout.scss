@@ -1,0 +1,41 @@
+// Контейнер: <div class="container">  |  .container.narrow  |  .container.wide
+.container {
+  width: 100%;
+  max-width: calc(var(--container) + var(--container-padding) * 2);
+  margin-left: auto;
+  margin-right: auto;
+  padding-left: var(--container-padding);
+  padding-right: var(--container-padding);
+
+  &.narrow {
+    --container: 800px;
+  }
+
+  &.wide {
+    --container: 1440px;
+  }
+}
+
+// Секція з вертикальними полями: <section class="section">
+.section {
+  padding-top: $gap-xxl;
+  padding-bottom: $gap-xxl;
+
+  @include tablet {
+    padding-top: 70px;
+    padding-bottom: 70px;
+  }
+
+  @include mobile {
+    padding-top: $gap-xl;
+    padding-bottom: $gap-xl;
+  }
+}
+
+// Автосітка: стільки колонок, скільки влізе, кожна не вужча за --min
+// <div class="grid-auto gap-md" style="--min: 250px">
+.grid-auto {
+  display: grid;
+  // min() у лапках, бо node-sass плутає його зі своєю функцією min()
+  grid-template-columns: repeat(auto-fill, minmax(#{"min(var(--min, 250px), 100%)"}, 1fr));
+}

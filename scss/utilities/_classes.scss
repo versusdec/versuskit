@@ -1,0 +1,131 @@
+// =====================================================
+// Класи для найчастіших стилів (без адаптивних версій).
+// Адаптивні (відступи, flex, grid, display...) — у _responsive.scss
+// =====================================================
+
+// ---------- Кольори ----------
+// .text-primary  .bg-primary  (для кожного кольору з $colors)
+@each $name, $value in $colors {
+  .text-#{$name} { color: var(--color-#{$name}); }
+  .bg-#{$name} { background-color: var(--color-#{$name}); }
+}
+
+// Темна / світла секція: фон + колір тексту разом
+.bg-dark { color: var(--color-light); }
+.bg-light { color: var(--color-dark); }
+
+// Фонова картинка: <section class="bg" style="background-image: url(img/bg.jpg)">
+.bg {
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: cover;
+}
+
+// ---------- Текст ----------
+.text-300 { font-weight: 300; }
+.text-400 { font-weight: 400; }
+.text-500 { font-weight: 500; }
+.text-600 { font-weight: 600; }
+.text-700 { font-weight: 700; }
+.text-800 { font-weight: 800; }
+.text-900 { font-weight: 900; }
+
+.lh-1 { line-height: 1; }
+.lh-tight { line-height: 1.2; }
+.lh-normal { line-height: $line-height; }
+
+.uppercase { text-transform: uppercase; }
+.lowercase { text-transform: lowercase; }
+.italic { font-style: italic; }
+.underline { text-decoration: underline; }
+.no-deco { text-decoration: none; }
+.text-nowrap { white-space: nowrap; }
+
+// Один рядок з "..."
+.truncate {
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+
+// 2, 3 або 4 рядки з "..."
+.clamp-2 { @include line-clamp(2); }
+.clamp-3 { @include line-clamp(3); }
+.clamp-4 { @include line-clamp(4); }
+
+// ---------- Рамки, скруглення, тіні ----------
+.border { border: 1px solid var(--color-light-accent); }
+.border-top { border-top: 1px solid var(--color-light-accent); }
+.border-bottom { border-bottom: 1px solid var(--color-light-accent); }
+.border-0 { border: 0; }
+
+// Колір рамки: <div class="border border-primary">
+// Стоїть після .border, щоб перебивати його колір
+@each $name, $value in $colors {
+  .border-#{$name} { border-color: var(--color-#{$name}); }
+}
+
+.border-radius { border-radius: var(--radius); overflow: hidden; }
+.rounded-full { border-radius: 9999px; }
+
+.shadow { box-shadow: 0 4px 16px rgba(0, 0, 0, 0.08); }
+.shadow-lg { box-shadow: 0 12px 40px rgba(0, 0, 0, 0.15); }
+
+// ---------- Позиціонування ----------
+.relative { position: relative; }
+.absolute { position: absolute; }
+.fixed { position: fixed; }
+.sticky { position: sticky; top: 0; }
+
+.inset-0 { inset: 0; }
+.top-0 { top: 0; }
+.right-0 { right: 0; }
+.bottom-0 { bottom: 0; }
+.left-0 { left: 0; }
+
+.z-1 { z-index: 1; }
+.z-10 { z-index: 10; }
+.z-100 { z-index: 100; }
+
+// ---------- Overflow ----------
+.overflow-hidden { overflow: hidden; }
+.overflow-auto { overflow: auto; }
+.overflow-x-auto { overflow-x: auto; }
+
+// ---------- Картинки / відео ----------
+// <img class="cover"> — заповнює батька, обрізаючи зайве
+.cover { @include object-fit-cover; }
+.contain { @include object-fit-contain; }
+
+// ---------- Прозорість і видимість ----------
+.opacity-50 { opacity: 0.5; }
+.opacity-75 { opacity: 0.75; }
+
+// Невидимий, але місце займає (зручно для анімацій)
+.hidden { visibility: hidden; opacity: 0; }
+.visible { visibility: visible; opacity: 1; }
+
+// Невидимий, але читається скрінрідером
+.sr-only {
+  position: absolute !important;
+  width: 1px !important;
+  height: 1px !important;
+  margin: -1px !important;
+  padding: 0 !important;
+  overflow: hidden !important;
+  clip-path: inset(50%) !important;
+  white-space: nowrap !important;
+  border: 0 !important;
+}
+
+// Сховати тільки на десктопі (> 1200px), напр. бургер
+.desktop-hide {
+  @include desktop {
+    display: none !important;
+  }
+}
+
+// ---------- Взаємодія ----------
+.pointer { cursor: pointer; }
+.pointer-events-none { pointer-events: none; }
+.select-none { user-select: none; -webkit-user-select: none; }

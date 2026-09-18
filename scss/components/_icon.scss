@@ -1,0 +1,38 @@
+// <i class="icon"><svg>…</svg></i>  або  <span class="icon" style="background-image: url(...)"></span>
+.icon {
+  display: inline-flex;
+  flex-shrink: 0;
+  width: var(--icon-size, 28px);
+  height: var(--icon-size, 28px);
+  background: no-repeat center / contain;
+
+  svg {
+    width: 100%;
+    height: 100%;
+  }
+
+  &.sm {
+    --icon-size: 20px;
+  }
+
+  &.lg {
+    --icon-size: 40px;
+  }
+
+  // Перефарбувати SVG у колір тексту: <i class="icon fill-current">
+  &.fill-current svg * {
+    fill: currentColor;
+  }
+
+  &.fill-dark svg * {
+    fill: var(--color-dark);
+  }
+
+  &.fill-light svg * {
+    fill: var(--color-light);
+  }
+
+  &.stroke-current svg * {
+    stroke: currentColor;
+  }
+}

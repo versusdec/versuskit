@@ -1,0 +1,169 @@
+$text-inputs: 'input:is([type="text"], [type="number"], [type="password"], [type="email"], [type="search"], [type="tel"], [type="url"], [type="date"], [type="time"])';
+
+#{$text-inputs},
+textarea,
+select,
+.input {
+  --input-bg: var(--color-white);
+  --input-border: transparent;
+
+  display: block;
+  width: 100%;
+  padding: 10px 15px;
+  border: 1px solid var(--input-border);
+  border-radius: 10px;
+  background-color: var(--input-bg);
+  font-size: 18px;
+  font-weight: 500;
+  -webkit-appearance: none;
+  appearance: none;
+  transition: border-color var(--transition), background-color var(--transition);
+
+  &::placeholder {
+    color: inherit;
+    opacity: 0.5;
+  }
+
+  &:focus-visible {
+    outline: none;
+    --input-border: var(--color-primary);
+  }
+
+  &:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+  }
+
+  &.outline {
+    --input-bg: transparent;
+    --input-border: var(--color-dark);
+  }
+
+  &.accent {
+    --input-bg: var(--color-light-accent);
+  }
+
+  // .error — вручну з JS; :user-invalid — автоматично після взаємодії
+  &.error,
+  &:user-invalid {
+    --input-border: var(--color-error);
+  }
+}
+
+#{$text-inputs},
+select,
+.input {
+  height: 50px;
+}
+
+textarea {
+  height: 140px;
+}
+
+select {
+  padding-right: 45px;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3E%3Cpath fill='none' stroke='%23242424' stroke-width='2' d='m2 5 6 6 6-6'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 15px center;
+  background-size: 16px;
+  cursor: pointer;
+}
+
+input[type="file"] {
+  font-size: 14px;
+
+  &::file-selector-button {
+    margin-right: var(--gap-xs);
+    padding: 8px 16px;
+    border: 1px solid var(--color-dark);
+    border-radius: var(--radius);
+    background: transparent;
+    font: inherit;
+    cursor: pointer;
+  }
+}
+
+label,
+.label {
+  display: block;
+  margin-bottom: 15px;
+  font-size: 14px;
+  font-weight: 500;
+
+  > :is(input, textarea, select) {
+    margin-top: 10px;
+  }
+}
+
+.error {
+  margin-top: var(--gap-xxs);
+  font-size: 13px;
+  color: var(--color-error);
+}
+
+// ---------- Checkbox / Radio ----------
+// <label class="checkbox"><input type="checkbox"><span>Текст</span></label>
+// <label class="checkbox round"><input type="radio" name="x"><span>Текст</span></label>
+// Колір береться з currentColor — працює і на світлому, і на темному фоні
+.checkbox {
+  position: relative;
+  display: block;
+  width: 100%;
+  margin-bottom: 0;
+  font-size: inherit;
+  font-weight: inherit;
+  cursor: pointer;
+  user-select: none;
+  -webkit-user-select: none;
+
+  span {
+    position: relative;
+    display: block;
+    padding-left: 30px;
+
+    &::before,
+    &::after {
+      @include pseudo-absolute;
+      top: 0.15em;
+      left: 0;
+      width: 18px;
+      height: 18px;
+      border: 1px solid currentColor;
+      transition: opacity var(--transition), transform var(--transition);
+    }
+
+    &::after {
+      border: none;
+      background-color: currentColor;
+      opacity: 0;
+      transform: scale(0.45);
+    }
+  }
+
+  &.round span::before,
+  &.round span::after {
+    border-radius: 50%;
+  }
+
+  input {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    opacity: 0;
+
+    &:checked ~ span::after {
+      opacity: 1;
+      transform: scale(0.6);
+    }
+
+    &:focus-visible ~ span::before {
+      outline: 2px solid var(--color-primary);
+      outline-offset: 2px;
+    }
+
+    &:disabled ~ span {
+      opacity: 0.5;
+      cursor: not-allowed;
+    }
+  }
+}

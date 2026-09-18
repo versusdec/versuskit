@@ -1,0 +1,75 @@
+// =====================================================
+// Міксини для власних стилів проєкту
+// =====================================================
+
+// ---------- Адаптив ----------
+// @include tablet { ... }   → ширина ≤ 1200px
+// @include mobile { ... }   → ширина ≤ 768px
+
+@mixin desktop {
+  @media (min-width: $bp-tablet + 1) {
+    @content;
+  }
+}
+
+@mixin tablet {
+  @media (max-width: $bp-tablet) {
+    @content;
+  }
+}
+
+@mixin mobile {
+  @media (max-width: $bp-mobile) {
+    @content;
+  }
+}
+
+@mixin mobile-xs {
+  @media (max-width: $bp-mobile-xs) {
+    @content;
+  }
+}
+
+// Hover тільки на пристроях з мишкою (на телефоні hover "залипає")
+@mixin hover {
+  @media (hover: hover) {
+    &:hover {
+      @content;
+    }
+  }
+}
+
+// ---------- Хелпери ----------
+
+// Для ::before / ::after
+@mixin pseudo-absolute {
+  content: "";
+  display: block;
+  position: absolute;
+}
+
+@mixin flex-center {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+@mixin object-fit-cover {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+@mixin object-fit-contain {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+}
+
+// Обрізати текст до N рядків з "..."
+@mixin line-clamp($lines) {
+  display: -webkit-box;
+  -webkit-line-clamp: $lines;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}

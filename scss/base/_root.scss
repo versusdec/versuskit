@@ -1,0 +1,20 @@
+// CSS-змінні з _variables.scss. Компоненти беруть кольори й відступи звідси,
+// тому їх можна перевизначити для окремого блоку: style="--color-primary: red"
+:root {
+  @each $name, $value in $colors {
+    --color-#{$name}: #{$value};
+  }
+
+  @each $name, $value in $spacers {
+    --gap-#{$name}: #{$value};
+  }
+
+  --font-family: #{$font-family};
+  --radius: #{$radius};
+  --transition: #{$transition};
+  --container: #{$container};
+  --container-padding: #{$container-padding};
+
+  --color-bg: var(--color-light);
+  --color-text: var(--color-dark);
+}

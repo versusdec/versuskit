@@ -1,0 +1,148 @@
+// =====================================================
+// Класи з адаптивними версіями.
+//
+// Кожен клас існує у трьох варіантах:
+//   .cols-3       — завжди
+//   .tab-cols-2   — при ширині ≤ 1200px
+//   .mob-cols-1   — при ширині ≤ 768px
+//
+// Класи описані один раз у міксині, $p — префікс ("", "tab-" або "mob-").
+// Внизу файлу міксин викликається тричі.
+// =====================================================
+
+@mixin responsive-classes($p) {
+
+  // ---------- Display ----------
+  .#{$p}block { display: block; }
+  .#{$p}inline-block { display: inline-block; }
+  .#{$p}flex { display: flex; }
+  .#{$p}inline-flex { display: inline-flex; }
+  .#{$p}grid { display: grid; }
+  .#{$p}show { display: block; }
+  .#{$p}hide { display: none; }
+
+  // ---------- Flex ----------
+  .#{$p}flex-center {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .#{$p}row { flex-direction: row; }
+  .#{$p}row-reverse { flex-direction: row-reverse; }
+  .#{$p}column { flex-direction: column; flex-wrap: nowrap; }
+  .#{$p}column-reverse { flex-direction: column-reverse; }
+  .#{$p}wrap { flex-wrap: wrap; }
+  .#{$p}nowrap { flex-wrap: nowrap; }
+
+  .#{$p}grow { flex-grow: 1; }
+  .#{$p}no-shrink { flex-shrink: 0; }
+  .#{$p}flex-1 { flex: 1 1 0%; min-width: 0; }
+
+  .#{$p}align-start { align-items: flex-start; }
+  .#{$p}align-center { align-items: center; }
+  .#{$p}align-end { align-items: flex-end; }
+  .#{$p}align-baseline { align-items: baseline; }
+  .#{$p}align-stretch { align-items: stretch; }
+
+  .#{$p}justify-start { justify-content: flex-start; }
+  .#{$p}justify-center { justify-content: center; }
+  .#{$p}justify-end { justify-content: flex-end; }
+  .#{$p}justify-between { justify-content: space-between; }
+  .#{$p}justify-around { justify-content: space-around; }
+
+  .#{$p}self-start { align-self: flex-start; }
+  .#{$p}self-center { align-self: center; }
+  .#{$p}self-end { align-self: flex-end; }
+
+  .#{$p}order-first { order: -1; }
+  .#{$p}order-last { order: 999; }
+
+  // ---------- Grid ----------
+  .#{$p}cols-1 { grid-template-columns: repeat(1, minmax(0, 1fr)); }
+  .#{$p}cols-2 { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .#{$p}cols-3 { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+  .#{$p}cols-4 { grid-template-columns: repeat(4, minmax(0, 1fr)); }
+  .#{$p}cols-5 { grid-template-columns: repeat(5, minmax(0, 1fr)); }
+  .#{$p}cols-6 { grid-template-columns: repeat(6, minmax(0, 1fr)); }
+  .#{$p}span-full { grid-column: 1 / -1; }
+
+  // ---------- Розміри ----------
+  .#{$p}width-100 { width: 100%; }
+  .#{$p}width-50 { width: 50%; }
+  .#{$p}width-fit { width: fit-content; }
+  .#{$p}width-auto { width: auto; }
+  .#{$p}height-100 { height: 100%; }
+  .#{$p}min-height-screen { min-height: 100vh; min-height: 100dvh; }
+
+  // ---------- Текст ----------
+  .#{$p}text-left { text-align: left; }
+  .#{$p}text-center { text-align: center; }
+  .#{$p}text-right { text-align: right; }
+
+  // .text-xs ... .text-xxl (розміри з $font-sizes)
+  @each $name, $size in $font-sizes {
+    .#{$p}text-#{$name} { font-size: $size; }
+  }
+
+  // ---------- Відступи ----------
+  // p = padding, m = margin; t/r/b/l = сторона; x = ліво+право, y = верх+низ
+  // Розміри з $spacers: 0 xxs xs sm md lg xl xxl
+  //
+  // Цикли йдуть від загального до конкретного (padding → px/py → pt/pr/pb/pl),
+  // тому уточнення перебиває: "padding-lg px-0" = відступи лише зверху і знизу.
+
+  // padding
+  @each $size, $value in $spacers {
+    .#{$p}padding-#{$size} { padding: $value; }
+  }
+  @each $size, $value in $spacers {
+    .#{$p}px-#{$size} { padding-left: $value; padding-right: $value; }
+    .#{$p}py-#{$size} { padding-top: $value; padding-bottom: $value; }
+  }
+  @each $size, $value in $spacers {
+    .#{$p}pt-#{$size} { padding-top: $value; }
+    .#{$p}pr-#{$size} { padding-right: $value; }
+    .#{$p}pb-#{$size} { padding-bottom: $value; }
+    .#{$p}pl-#{$size} { padding-left: $value; }
+  }
+
+  // margin
+  @each $size, $value in $spacers {
+    .#{$p}margin-#{$size} { margin: $value; }
+  }
+  @each $size, $value in $spacers {
+    .#{$p}mx-#{$size} { margin-left: $value; margin-right: $value; }
+    .#{$p}my-#{$size} { margin-top: $value; margin-bottom: $value; }
+  }
+  @each $size, $value in $spacers {
+    .#{$p}mt-#{$size} { margin-top: $value; }
+    .#{$p}mr-#{$size} { margin-right: $value; }
+    .#{$p}mb-#{$size} { margin-bottom: $value; }
+    .#{$p}ml-#{$size} { margin-left: $value; }
+  }
+
+  .#{$p}mx-auto { margin-left: auto; margin-right: auto; }
+  .#{$p}ml-auto { margin-left: auto; }
+  .#{$p}mr-auto { margin-right: auto; }
+
+  // gap (працює лише у flex і grid)
+  @each $size, $value in $spacers {
+    .#{$p}gap-#{$size} { gap: $value; }
+  }
+  @each $size, $value in $spacers {
+    .#{$p}row-gap-#{$size} { row-gap: $value; }
+    .#{$p}col-gap-#{$size} { column-gap: $value; }
+  }
+}
+
+// Порядок важливий: mob- стоїть останнім, тому перебиває tab- і базовий клас
+@include responsive-classes("");
+
+@include tablet {
+  @include responsive-classes("tab-");
+}
+
+@include mobile {
+  @include responsive-classes("mob-");
+}

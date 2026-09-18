@@ -1,0 +1,10 @@
+*.css.map
+
+# IDE (спільні налаштування типу watcherTasks.xml лишаємо)
+.idea/workspace.xml
+.idea/deployment.xml
+.idea/shelf/
+.vscode/
+
+.DS_Store
+Thumbs.db

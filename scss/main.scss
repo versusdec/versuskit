@@ -1,0 +1,35 @@
+// =====================================================
+// VersusKit → компілюється в ../css/main.css
+// Налаштування: _variables.scss
+// =====================================================
+
+@import "variables";
+@import "mixins";
+
+// Шрифти проєкту (@font-face)
+// @import "base/fonts";
+
+// ---------- Основа ----------
+@import "base/root";
+@import "base/reset";
+@import "base/typography";
+@import "base/layout";
+@import "base/animations";
+
+// ---------- Компоненти ----------
+@import "components/button";
+@import "components/icon";
+@import "components/form";
+@import "components/accordion";
+@import "components/modal";
+@import "components/dropdown";
+@import "components/misc";
+
+// ---------- Стилі проєкту ----------
+// @import "blocks/header";
+// @import "pages/home";
+
+// ---------- Класи ----------
+// Завжди останніми, щоб перебивали стилі компонентів
+@import "utilities/classes";
+@import "utilities/responsive";

@@ -1,0 +1,160 @@
+// Dropdown
+// <div class="dropdown">
+//   <button class="dropdown-toggle" aria-expanded="false">Меню</button>
+//   <div class="dropdown-menu">
+//     <a href="#" class="dropdown-item">Пункт</a>
+//     <a href="#" class="dropdown-item">Пункт</a>
+//   </div>
+// </div>
+//
+// Модифікатори .dropdown:
+//   .hover  — відкривається наведенням (на тачі — кліком)
+//   .right  — меню вирівняне по правому краю
+//   .up     — меню відкривається вгору
+//   .select — кастомний селект: вибраний пункт підставляється в кнопку
+//   .full   — меню на всю ширину кнопки
+.dropdown {
+  --dropdown-bg: var(--color-white);
+  --dropdown-color: var(--color-dark);
+  --dropdown-offset: 8px;
+
+  position: relative;
+  display: inline-block;
+
+  &.full {
+    display: block;
+
+    .dropdown-menu {
+      min-width: 100%;
+    }
+  }
+}
+
+.dropdown-toggle {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--gap-xs);
+  cursor: pointer;
+
+  // Стрілка: прибрати — клас .no-arrow
+  &:not(.no-arrow)::after {
+    content: "";
+    flex-shrink: 0;
+    width: 7px;
+    height: 7px;
+    margin-top: -4px;
+    border-right: 2px solid currentColor;
+    border-bottom: 2px solid currentColor;
+    transform: rotate(45deg);
+    transition: transform var(--transition), margin var(--transition);
+  }
+
+  .dropdown.full > & {
+    width: 100%;
+    justify-content: space-between;
+  }
+}
+
+.dropdown-menu {
+  position: absolute;
+  top: calc(100% + var(--dropdown-offset));
+  left: 0;
+  z-index: 20;
+  min-width: 200px;
+  max-height: 300px;
+  overflow-y: auto;
+  padding: var(--gap-xxs);
+  border-radius: var(--radius);
+  background-color: var(--dropdown-bg);
+  color: var(--dropdown-color);
+  box-shadow: 0 10px 30px color-mix(in srgb, var(--color-dark) 15%, transparent);
+  opacity: 0;
+  visibility: hidden;
+  transform: translateY(-5px);
+  transition: opacity var(--transition), transform var(--transition), visibility var(--transition);
+  scrollbar-width: thin;
+
+  // Невидимий "місток", щоб hover не зривався в проміжку між кнопкою і меню
+  &::before {
+    content: "";
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: 100%;
+    height: var(--dropdown-offset);
+  }
+
+  .dropdown.right > & {
+    left: auto;
+    right: 0;
+  }
+
+  .dropdown.up > & {
+    top: auto;
+    bottom: calc(100% + var(--dropdown-offset));
+    transform: translateY(5px);
+
+    &::before {
+      bottom: auto;
+      top: 100%;
+    }
+  }
+}
+
+.dropdown-item {
+  display: block;
+  width: 100%;
+  padding: 8px 12px;
+  border-radius: var(--radius);
+  color: inherit;
+  text-align: left;
+  text-decoration: none;
+  white-space: nowrap;
+  cursor: pointer;
+  transition: background-color var(--transition);
+
+  @include hover {
+    background-color: var(--color-light);
+  }
+
+  &:focus-visible {
+    outline-offset: -2px;
+  }
+
+  &.active {
+    font-weight: 600;
+    background-color: var(--color-light);
+  }
+}
+
+.dropdown-divider {
+  height: 1px;
+  margin: var(--gap-xxs) 0;
+  background-color: var(--color-light-accent);
+}
+
+// ---------- Відкритий стан ----------
+@mixin dropdown-open {
+  > .dropdown-menu {
+    opacity: 1;
+    visibility: visible;
+    transform: none;
+  }
+
+  > .dropdown-toggle::after {
+    margin-top: 3px;
+    transform: rotate(-135deg);
+  }
+}
+
+.dropdown.active {
+  @include dropdown-open;
+}
+
+// Hover-режим лише на пристроях з мишкою; на тачі працює клік (JS)
+@media (hover: hover) {
+  .dropdown.hover:hover,
+  .dropdown.hover:focus-within {
+    @include dropdown-open;
+  }
+}

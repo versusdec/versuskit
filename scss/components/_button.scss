@@ -1,0 +1,140 @@
+// <a class="btn primary">  <button class="btn outline light">
+// Кольори задаються змінними — легко зробити свій варіант:
+// .btn.accent { --btn-bg: hotpink; --btn-color: white; }
+.btn {
+  --btn-bg: var(--color-light-accent);
+  --btn-color: var(--color-dark);
+  --btn-border: transparent;
+  --btn-fill: var(--color-dark);
+
+  position: relative;
+  isolation: isolate;
+  overflow: hidden;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--gap-xs);
+  padding: 15px 30px;
+  border: 1px solid var(--btn-border);
+  border-radius: var(--radius);
+  background-color: var(--btn-bg);
+  color: var(--btn-color);
+  font-family: inherit;
+  font-size: 18px;
+  line-height: 1.2;
+  text-align: center;
+  text-decoration: none;
+  cursor: pointer;
+  user-select: none;
+  -webkit-user-select: none;
+  transition: background-color var(--transition), color var(--transition),
+    border-color var(--transition), opacity var(--transition);
+
+  @include hover {
+    opacity: 0.9;
+  }
+
+  &:disabled,
+  &.disabled {
+    opacity: 0.5;
+    pointer-events: none;
+  }
+
+  &.primary {
+    --btn-bg: var(--color-primary);
+    --btn-color: var(--color-light);
+  }
+
+  &.secondary {
+    --btn-bg: var(--color-secondary);
+    --btn-color: var(--color-light);
+  }
+
+  // Світла кнопка для темного фону
+  &.light {
+    --btn-bg: var(--color-white);
+    --btn-color: var(--color-dark);
+  }
+
+  // Прозора кнопка з заливкою знизу на hover.
+  // Заливка на ::before, ::after лишається вільним (стрілка dropdown тощо)
+  &.outline {
+    --btn-bg: transparent;
+    --btn-color: var(--color-dark);
+    --btn-border: var(--color-dark);
+    --btn-fill: var(--color-dark);
+    --btn-fill-color: var(--color-light);
+
+    &::before {
+      @include pseudo-absolute;
+      inset: auto 0 0;
+      height: 0;
+      background-color: var(--btn-fill);
+      transition: height var(--transition);
+      z-index: -1;
+    }
+
+    @include hover {
+      opacity: 1;
+      color: var(--btn-fill-color);
+
+      &::before {
+        height: 100%;
+      }
+    }
+
+    // Для темного фону
+    &.light {
+      --btn-color: var(--color-light);
+      --btn-border: var(--color-light);
+      --btn-fill: var(--color-light);
+      --btn-fill-color: var(--color-dark);
+    }
+  }
+
+  &.primary-hover {
+    @include hover {
+      opacity: 1;
+      --btn-bg: var(--color-primary);
+      --btn-color: var(--color-light);
+    }
+  }
+
+  &.secondary-hover {
+    @include hover {
+      opacity: 1;
+      --btn-bg: var(--color-secondary);
+      --btn-color: var(--color-light);
+    }
+  }
+
+  &.sm {
+    padding: 10px 20px;
+    font-size: 14px;
+  }
+
+  &.lg {
+    padding: 20px 40px;
+    font-size: 20px;
+  }
+
+  &.block {
+    display: flex;
+    width: 100%;
+  }
+
+  // Кнопка з іконкою, що зсувається на hover: <a class="btn with-icon">Текст <i class="icon">…</i></a>
+  &.with-icon .icon {
+    width: 20px;
+    height: 20px;
+    transition: transform var(--transition);
+  }
+
+  &.with-icon {
+    @include hover {
+      .icon {
+        transform: translateX(5px);
+      }
+    }
+  }
+}
