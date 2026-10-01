@@ -3,6 +3,8 @@
 Набір класів для найчастіших стилів + готові компоненти. Сирий SCSS + jQuery, без збирачів.
 Готовий CSS важить ~40 КБ (~8 КБ gzip).
 
+**📖 Документація з живими прикладами: https://versusdec.github.io/versuskit/**
+
 ## Старт
 
 Без збирачів і npm: копіюєш папку в проєкт і працюєш.
@@ -10,7 +12,7 @@
 - `scss/`: сирі SCSS-файли
 - `css/main.css`: скомпільований результат
 - `js/main.js`: сирий JS на jQuery (`js/vendor/jquery.min.js` 3.7.1 уже лежить поруч)
-- `index.html`: документація з живими прикладами (вона ж сайт на GitHub Pages)
+- `index.html`: документація з живими прикладами (вона ж сайт на [GitHub Pages](https://versusdec.github.io/versuskit/))
 
 ### Компіляція SCSS
 
